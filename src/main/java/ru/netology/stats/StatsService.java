@@ -10,32 +10,48 @@ public class StatsService {
         return sum;
     }
 
-    public int calcAvgInMonth(int[] sales) {
+    public int calcAvg(int[] sales) {
 
         return calcSumSales(sales) / sales.length;
     }
 
-    public int findMax(int[] sales) {
-        int currentMax = sales[0];
+    public int amountMonthSalesOverAvg(int[] sales) {
+        int amountMonths = 0;
+        int avg = calcAvg(sales);
         for (int sale : sales) {
-            if (sale > currentMax) {
-                currentMax = sale;
+            if (sale > avg) {
+                amountMonths += 1;
             }
         }
-        return currentMax;
+        return amountMonths;
     }
 
-    public int findMin(int[] sales) {
-        int currentMin = sales[0];
+    public int amountMonthSalesUnderAvg(int[] sales) {
+        int amountMonths = 0;
+        int avg = calcAvg(sales);
         for (int sale : sales) {
-            if (sale < currentMin) {
-                currentMin = sale;
+            if (sale < avg) {
+                amountMonths += 1;
             }
         }
-        return currentMin;
+        return amountMonths;
     }
 
-
+    //Метод ниже считает номер месяца минимальных продаж.
+// Логика его такова: заводим переменную minMonth для хранения номера ячейки
+// в массиве того месяца, в котором были минимальные продажи среди всех
+// уже просмотренных; изначально мы никакие ещё не просмотрели, потому
+// запишем туда номер 0. Будем циклом поочерёдно смотреть месяцы продаж:
+// на каждой итерации у нас в sale будет количество продаж
+// в рассматриваемом месяце, в month - номер этого рассматриваемого месяца.
+// Если мы смотрим на месяц в котором продажи меньше чем в минимальном
+// из просмотренных ранее (чей номер запомнен в minMonth),
+// то считаем теперь этот рассматриваемый месяц минимальным
+// (присваиваем в minMonth значение month).
+// И так до конца массива продаж, тогда после цикла в minMonth у нас будет
+// лежать номер месяца минимальных продаж. Останется только один момент:
+// мы нумеровали месяцы с нуля (тк в массивах ячейки нумеруются с нуля),
+// потому отдавая ответ нам надо прибавить 1.
     public int minSales(int[] sales) {
         int minMonth = 0;
         int month = 0; // переменная для индекса рассматриваемого месяца в массиве
